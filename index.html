@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>抽選応募</title>
+</head>
+<body>
+  <h2>抽選応募</h2>
+  <button id="applyBtn">応募する</button>
+
+  <p id="message"></p>
+
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script>
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbw3Fw33V7barWhmNBzsq0Skow_4GHRCdk_Z4xAfehDuuhnPHoiMODnaldbnu4plExQRQQ/exec";
+
+    async function main() {
+      await liff.init({ liffId: "2009635422-7Mvf2JZy" });
+
+      const profile = await liff.getProfile();
+      const userId = profile.userId;
+
+      document.getElementById("applyBtn").onclick = async () => {
+        const res = await fetch(GAS_URL, {
+          method: "POST",
+          body: JSON.stringify({ userId: userId })
+        });
+
+        const json = await res.json();
+
+        if (json.result === "OK") {
+          document.getElementById("message").innerText = "応募が完了しました！";
+        } else {
+          document.getElementById("message").innerText = "応募は5回までです。";
+        }
+      };
+    }
+
+    main();
+  </script>
+</body>
+</html>
