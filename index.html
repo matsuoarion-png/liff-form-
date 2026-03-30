@@ -53,7 +53,9 @@
       };
     }
 
-    main();
+    main().catch(err => {
+  document.getElementById("message").innerText = "エラー: " + err;
+});
   </script>
 </body>
 </html>
